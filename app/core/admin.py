@@ -42,6 +42,8 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Appointment)
+admin.site.register(models.Language)
 
