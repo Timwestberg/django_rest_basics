@@ -102,3 +102,19 @@ class PrivateAppointmentApiTests(TestCase):
 
         serializer = AppointmentDetailSerializer(appointment)
         self.assertEqual(res.data, serializer.data)
+
+    def test_create_appointment(self):
+        """Test creating an appointment."""
+        payload = {
+            'title': 'Sample Appointment',
+            'time_minutes': 35,
+            'price': Decimal('35.00')
+        }
+
+        res = self.client.post(APPOINTMENT_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        appointment = Appointment.objects.filter(id=res.data['id'])
+        for k, v in payload.items():
+            self.assertEqual(getattr(appointment, k), v)
+        self.assertEqual(appointment.user, self.user)
